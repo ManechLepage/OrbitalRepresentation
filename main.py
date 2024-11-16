@@ -37,6 +37,12 @@ def get_omega(n, l, s, zeta):
     second_part = factorial(n - s) / (factorial(s) * factorial(n - l - (2 * s)))
     return first_part * second_part
 
+def overlap_integral(n, n2, l, l2, m, m2, zeta, zeta2):
+    if l == l2:
+        return 0
+    if m == m2:
+        return 0
+    return factorial(n + n2) / ((zeta + zeta2) ** (n + n2 + 1))
 
 def main():
     orbital = input()
