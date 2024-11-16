@@ -14,11 +14,6 @@ def get_normalization_constant(zeta, n):
     second_part = np.sqrt((2 * zeta) / factorial(2 * n))
     return first_part * second_part
 
-def get_omega(n, l, s, zeta):
-    first_part = (-1 / (4 * (zeta ** 2))) ** s
-    second_part = factorial(n - s) / (factorial(s) * factorial(n - l - (2 * s)))
-    return first_part * second_part
-
 def overlap_integral(n0, n1, l0, l1, m0, m1, zeta0, zeta1):
     if l0 != l1 or m0 != m1:
         return 0
@@ -32,8 +27,13 @@ def kinetic_integral(n0, n1, l0, l1, m0, m1, zeta0, zeta1):
     constant2 = -2 * zeta1 * zeta1
     integrand = lambda r: np.exp(-(zeta0 + zeta1) * r) * (constant0 * r ** (n0 + n1 - 2) + constant1 * r ** (n0 + n1 - 1) + constant2 * r ** (n0 + n1))
     return integrate.quad(integrand, 0, np.inf) / 2
-    
-    
+
+def nuclear_attraction_integral(n0, n1, l0, l1, m0, m1, zeta0, zeta1):
+    if l0 != l1 or m0 != m1:
+        return 0
+    integrand = lambda r: radial_part(r, n0, zeta0) * radial_part(r, n1, zeta1) * r
+    return integrate.quad(integrand, 0, np.inf)
+
 def main():
     orbital = input()
     n = int(orbital[0])
