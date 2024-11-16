@@ -3,7 +3,7 @@ from scipy.special import factorial
 from scipy.special import sph_harm
 
 def get_slater_type_orbital(n, l, m, r, theta, phi, zeta):
-    return radial_part(r, n, zeta) * sph_harm(m, l, phi, theta)
+    return radial_part(r, n, zeta) * sph_harm(m, l, phi, theta)[-1]
 
 def radial_part(r, n, zeta):
     return get_normalization_constant(zeta, n) * (r ** (n - 1)) * np.exp(-zeta * r)
