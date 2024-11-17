@@ -32,21 +32,18 @@ def nuclear_attraction_integral(n0, n1, l0, l1, m0, m1, zeta0, zeta1):
     if l0 != l1 or m0 != m1:
         return 0
     integrand = lambda r: radial_part(r, n0, zeta0) * radial_part(r, n1, zeta1) * r
-    return integrate.quad(integrand, 0, np.inf, args=(r0, r1, n0, n1, m0, m1, l0, l1, zeta0, zeta1))
+    return integrate.quad(integrand, 0, np.inf)
 
-def basic_integral(r0, r1, n0, n1, m0, m1, l0, l1, zeta0, zeta1):
-    if m0 != m1:
+def basic_integral(r0, n0, n1, m0, m1, l0, l1, zeta0, zeta1):
+    if m0 != m1 or l0 != l1:
         return 0
-    if l0 != l1:
-        return 0
-    return integrate.quad(lambda: r1, -r0, np.inf, args=(r0, r1, n0, n1, m0, m1, l0, l1, zeta0, zeta1))
-
-def basic_integral_inside(r0, r1, n0, n1, m0, m1, l0, l1, zeta0, zeta1):
-    return np.conjugate(radial_part(r0 + r1, n0, zeta0)) * radial_part(r0 + r1, n1, zeta1) * r1
+    integrand = lambda r1: np.conjugate(radial_part(r0 + r1, n0, zeta0)) * radial_part(r0 + r1, n1, zeta1) * r1
+    return integrate.quad(integrand, -r0, np.inf)
 
 def main():
     orbital = input()
     n = int(orbital[0])
     l = ['s', 'p', 'd', 'f'].index(orbital[1])
+    basic_integral(0, n, n, 0, 0, l, l, 1, 1)
 
 main()
