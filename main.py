@@ -2,6 +2,7 @@ import numpy as np
 from scipy.special import factorial
 from scipy.special import sph_harm
 from scipy import integrate
+import quantum_numbers
 
 def get_slater_type_orbital(n, l, m, r, theta, phi, zeta):
     return radial_part(r, n, zeta) * sph_harm(m, l, phi, theta)[-1]
@@ -39,6 +40,9 @@ def basic_integral(r0, n0, n1, m0, m1, l0, l1, zeta0, zeta1):
         return 0
     integrand = lambda r1: np.conjugate(radial_part(r0 + r1, n0, zeta0)) * radial_part(r0 + r1, n1, zeta1) * r1
     return integrate.quad(integrand, -r0, np.inf)
+
+def get_quantum_numbers(value):
+    return quantum_numbers.orbital_dict[value]
 
 def main():
     orbital = input()
